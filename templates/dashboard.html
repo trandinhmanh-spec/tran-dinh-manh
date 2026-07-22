@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Guardian{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Cột trái: Camera Stream -->
+    <div class="glass-panel camera-container">
+        <div class="camera-header">
+            <h3>🔴 Trực tiếp Webcam</h3>
+            <div id="system-status" class="status-badge status-normal">
+                System Normal
+            </div>
+        </div>
+        <img src="{{ url_for('video_feed') }}" alt="Camera Stream" class="video-feed">
+    </div>
+
+    <!-- Cột phải: Recent Alerts -->
+    <div class="glass-panel alerts-panel">
+        <h3>🚨 Cảnh báo gần đây</h3>
+        <div class="alerts-list">
+            {% if recent_alerts %}
+                {% for alert in recent_alerts %}
+                <div class="alert-card {{ alert.alert_type }}">
+                    <div class="alert-time">{{ alert.timestamp.strftime('%H:%M:%S - %d/%m/%Y') }}</div>
+                    <div class="alert-title">
+                        <span>Phát hiện {{ alert.alert_type }}</span>
+                        <span class="confidence">{{ alert.confidence }}%</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--text-secondary); text-align: center; margin-top: 2rem;">Hệ thống an toàn. Chưa có cảnh báo.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

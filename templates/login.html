@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng Nhập - AI Guardian{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="glass-panel login-box">
+        <h1 class="nav-brand">AI GUARDIAN</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Hệ Thống Nhận Diện Cháy Nổ</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="flash-msg">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label>Tên đăng nhập</label>
+                <input type="text" name="username" class="form-control" required placeholder="Nhập admin" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" name="password" class="form-control" required placeholder="Nhập 123456">
+            </div>
+            <button type="submit" class="btn-primary">Vào Hệ Thống</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Lịch Sử Cảnh Báo - AI Guardian{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 2rem;">
+    <h2>Lịch sử hệ thống</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Danh sách tất cả các sự kiện cháy/khói được AI ghi nhận</p>
+
+    <div class="table-wrapper" style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Thời gian</th>
+                    <th>Loại cảnh báo</th>
+                    <th>Độ tin cậy</th>
+                    <th>Hình ảnh bằng chứng</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if alerts %}
+                    {% for alert in alerts %}
+                    <tr>
+                        <td>#{{ alert.id }}</td>
+                        <td>{{ alert.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>
+                            <span class="status-badge status-warning" 
+                                {% if alert.alert_type == 'SMOKE' %}
+                                style="display:inline-flex; color: var(--accent-blue); background: rgba(59, 130, 246, 0.1);"
+                                {% else %}
+                                style="display:inline-flex;"
+                                {% endif %}>
+                                {{ alert.alert_type }}
+                            </span>
+                        </td>
+                        <td>{{ alert.confidence }}%</td>
+                        <td>
+                            {% if alert.image_path %}
+                            <a href="{{ url_for('static', filename=alert.image_path) }}" target="_blank">
+                                <img src="{{ url_for('static', filename=alert.image_path) }}" alt="Bằng chứng" style="height: 60px; border-radius: 6px; border: 1px solid var(--border-glass); box-shadow: var(--shadow-glass); transition: transform 0.2s;">
+                            </a>
+                            {% else %}
+                            <span style="color: var(--text-secondary)">Không có</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                            Chưa có dữ liệu cảnh báo nào.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

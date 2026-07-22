@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Cài Đặt Hệ Thống - AI Guardian{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>⚙️ Cài Đặt Camera</h2>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('settings') }}" style="margin-top: 20px;">
+        <div class="form-group">
+            <label for="camera_source" style="display: block; margin-bottom: 10px; font-weight: 500; color: var(--text-secondary)">Nguồn Camera (ID hoặc IP/URL stream)</label>
+            <input type="text" id="camera_source" name="camera_source" value="{{ current_source }}" class="form-control">
+            
+            <p style="color: var(--text-secondary); font-size: 0.9em; margin-top: 15px; margin-bottom: 20px; line-height: 1.5;">
+                <strong>Gợi ý:</strong><br>
+                - Nhập <code>0</code> để sử dụng webcam mặc định của máy tính.<br>
+                - Để sử dụng camera điện thoại, hãy dùng app như DroidCam/IP Webcam và nhập URL stream (Ví dụ: <code>http://192.168.1.10:8080/video</code>).
+            </p>
+        </div>
+        
+        <button type="submit" class="btn-primary">Lưu Cài Đặt & Khởi Động Lại Camera</button>
+    </form>
+</div>
+{% endblock %}
