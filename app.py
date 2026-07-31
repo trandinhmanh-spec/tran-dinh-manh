@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from flask import Flask, render_template, Response, request, redirect, url_for, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models_db import db, User, AlertEvent
@@ -135,6 +136,8 @@ def gen(camera):
         if frame:
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        else:
+            time.sleep(0.1)
 
 @app.route('/video_feed')
 @login_required

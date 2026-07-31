@@ -24,7 +24,10 @@ class VideoCamera:
         if cam_source.isdigit():
             cam_source = int(cam_source)
             
-        self.video = cv2.VideoCapture(cam_source)
+        if isinstance(cam_source, int) and os.name == 'nt':
+            self.video = cv2.VideoCapture(cam_source, cv2.CAP_DSHOW)
+        else:
+            self.video = cv2.VideoCapture(cam_source)
         self.alert_callback = alert_callback
         
         self.last_fire_alert = 0
