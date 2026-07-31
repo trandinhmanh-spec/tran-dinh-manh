@@ -1,22 +1,19 @@
 from typing import Optional, Any
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 from flask_login import UserMixin
 from datetime import datetime
 
-class Base(DeclarativeBase):
-    pass
+db = SQLAlchemy()
 
-db = SQLAlchemy(model_class=Base)
-
-class User(UserMixin, Base):
+class User(UserMixin, db.Model):
     __tablename__ = 'user'
     
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(db.String(100), unique=True)
     password: Mapped[str] = mapped_column(db.String(100))
 
-class AlertEvent(Base):
+class AlertEvent(db.Model):
     __tablename__ = 'alert_event'
     
     id: Mapped[int] = mapped_column(primary_key=True)
